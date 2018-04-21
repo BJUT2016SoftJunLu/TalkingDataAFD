@@ -2,7 +2,7 @@ import pandas as pd
 import xgboost as xgb
 import  gc
 import time
-
+#
 predictors = []
 predictors.extend(['app', 'device', 'os', 'channel', 'hour', 'day',
                    'ip_tcount', 'ip_tchan_count', 'ip_app_count',
