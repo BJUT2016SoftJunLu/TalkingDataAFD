@@ -2,7 +2,7 @@ import pandas as pd
 import gc
 import numpy as np
 
-debug = True
+debug = False
 
 dtypes = {
     'ip': 'uint32',
@@ -14,9 +14,12 @@ dtypes = {
     'click_id': 'uint32',
 }
 
-train_path = '../data/train_sample.csv'
+if debug is True:
+    train_path = '../data/train_sample.csv'
+else:
+    train_path = '../data/train.csv'
+
 test_path = '../data/test.csv'
-result_path = '../data/result.csv'
 
 skip_rows = 109903890
 load_rows = 40000000
@@ -42,12 +45,17 @@ def load_data(train_path,test_path, skip_rows, load_rows, dtypes):
                                 nrows=10000)
     else:
         print("加载训练数据.....")
+        # train_data = pd.read_csv(train_path,
+        #                          dtype=dtypes,
+        #                          usecols=['ip', 'app', 'device', 'os', 'channel', 'click_time', 'is_attributed'],
+        #                          parse_dates=['click_time'],
+        #                          skiprows=range(1, skip_rows),
+        #                          nrows=load_rows)
+
         train_data = pd.read_csv(train_path,
                                  dtype=dtypes,
                                  usecols=['ip', 'app', 'device', 'os', 'channel', 'click_time', 'is_attributed'],
-                                 parse_dates=['click_time'],
-                                 skiprows=range(1, skip_rows),
-                                 nrows=load_rows)
+                                 parse_dates=['click_time'])
         print("加载测试数据.....")
         test_data = pd.read_csv(test_path,
                                  dtype=dtypes,
