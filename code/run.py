@@ -17,8 +17,8 @@ def main():
     test_data.to_csv(test_data_path)
 
 
-    # xgboost_model = model_xgboost.model_train(train_data)
-    # model_xgboost.model_predict(test_data, result_path_xgboost, xgboost_model)
+    xgboost_model = model_xgboost.model_train(train_data)
+    model_xgboost.model_predict(test_data, result_path_xgboost, xgboost_model)
 
     bst,best_iteration = model_lightgbm.model_train(train_data,val_data)
     model_lightgbm.model_predict(result_path_lightgbm,test_data,bst,best_iteration)
