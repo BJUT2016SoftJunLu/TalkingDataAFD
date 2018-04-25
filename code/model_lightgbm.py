@@ -35,12 +35,13 @@ def lgb_modelfit_nocv(params, dtrain, dvalid, predictors, target='target', objec
         'min_split_gain': 0,  # lambda_l1, lambda_l2 and min_gain_to_split to regularization
         'reg_alpha': 0,  # L1 regularization term on weights
         'reg_lambda': 0,  # L2 regularization term on weights
-        'nthread': 4,
+        'nthread': 8,
         'verbose': 0,
         'metric':metrics
     }
 
     lgb_params.update(params)
+    print(lgb_params)
 
     print("preparing validation datasets")
 
@@ -71,12 +72,12 @@ def lgb_modelfit_nocv(params, dtrain, dvalid, predictors, target='target', objec
 def model_train(train_data,val_data):
 
     params = {
-        'learning_rate': 0.20,
+        'learning_rate': 0.05,
         # 'is_unbalance': 'true', # replaced with scale_pos_weight argument
-        'num_leaves': 7,  # 2^max_depth - 1
-        'max_depth': 3,  # -1 means no limit
-        'min_child_samples': 100,  # Minimum number of data need in a child(min_data_in_leaf)
-        'max_bin': 100,  # Number of bucketed bin for feature values
+        'num_leaves': 15,  # 2^max_depth - 1
+        'max_depth': 4,  # -1 means no limit
+        'min_child_samples': 100,  # Minimum number of data need in a child(min_data_in_leaf)[100]
+        'max_bin': 200,  # Number of bucketed bin for feature values
         'subsample': 0.7,  # Subsample ratio of the training instance.
         'subsample_freq': 1,  # frequence of subsample, <=0 means no enable
         'colsample_bytree': 0.9,  # Subsample ratio of columns when constructing each tree.
@@ -94,9 +95,9 @@ def model_train(train_data,val_data):
                                               target,
                                               objective='binary',
                                               metrics='auc',
-                                              early_stopping_rounds=30,
+                                              early_stopping_rounds=100,
                                               verbose_eval=True,
-                                              num_boost_round=1000,
+                                              num_boost_round=3000,
                                               categorical_features=categorical)
 
     print('训练完成.... [{}]'.format(time.time() - start_time))
